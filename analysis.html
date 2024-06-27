@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black;
+            color: white;
+
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            
+        }
+
+        
+        h1 {
+            margin: 0; 
+            text-align: left; 
+            color: white;
+        }
+
+        h3 {
+            position: absolute;
+            font-size: 40px;
+            top: 4px; 
+            left: 30px; 
+            width: 100px; 
+        }
+
+        .graph-container {
+            max-width: 800px;
+            padding-top: 20px;
+            padding-bottom: 30px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;  
+            align-items: center;
+        }
+            
+        .graph-container img {
+            max-width: 100%;  
+        }
+
+        
+        .analysis-results {
+            margin-top: 20px;
+        }
+
+        #show-more-button {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+
+        #fact-table-container {
+            max-height: 400px; 
+            overflow-y: auto; 
+            border: 1px solid #ddd; 
+            padding: 10px; 
+            margin-top: 20px; 
+            background-color: white;
+            color: black;
+        }
+
+        form button{
+            background-color: blue;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        form button:hover{
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Uber</h3>
+        <h1>Analysis Results</h1>
+
+        {% if overall_results %}
+            <div>
+                <h2>Overall Analysis Results</h2>
+                <p>Total of Total Amount: {{ overall_results.total_amount_sum }}</p>
+                <p>Average Fare Amount: {{ overall_results.avg_fare_amt }}</p>
+                <p>Average Trip Distance: {{ overall_results.avg_trip_distance }}</p>
+            </div>
+        {% endif %}
+
+
+
+        
+        {% if plot_base64 %}
+        <div class="graph-container">
+            
+            <img src="data:image/png;base64,{{ plot_base64 }}" alt="Vendor Analysis">
+            
+        </div>
+        {% endif %}
+
+        {% if fact_table is not none %}
+             
+             <div id="fact-table-container">
+                {{ fact_table.to_html()|safe }}
+            </div>
+
+    
+            <div id="show-more-button">Show More</div>
+        {% endif %}
+
+        <form method="post" action="/analyze_vendor">
+            <input type="text" name="selected_vendor_id" placeholder="Enter Vendor ID">
+            <button type="submit">Analyze Vendor</button>
+        </form>
+    </div>
+
+    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+        
+            $('#fact-table-container tbody tr:gt(19)').hide();
+
+            
+            $('#show-more-button').click(function () {
+                $('#fact-table-container tbody tr:gt(19)').toggle();
+            });
+        });
+    </script>
+</body>
+</html>
