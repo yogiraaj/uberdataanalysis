@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uber Data Analysis - Vendor {{ vendor_id }}</title>
+</head>
+<body>
+    <h1>Uber Data Analysis - Vendor {{ vendor_id }}</h1>
+
+    <!-- Display the results for the individual vendor -->
+    {% if plot_base64 %}
+        <img src="data:image/png;base64,{{ plot_base64 }}" alt="Distribution of Vendor ID {{ vendor_id }}">
+    {% endif %}
+
+    <!-- Add any additional analysis results specific to the individual vendor -->
+</body>
+</html>
